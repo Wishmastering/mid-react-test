@@ -1,11 +1,10 @@
 import "./App.css";
-import movieResponse from "./mocks/mock-results.json";
-import noResults from "./mocks/no-results.json";
 
-export function useMovies() {}
+import useMovies from "./hooks/useMovies";
 
 export default function App() {
-  const movies = movieResponse.Search;
+  const { movies } = useMovies();
+
   const hasMovies = movies?.length > 0;
 
   return (
@@ -37,9 +36,9 @@ function RenderMovies({ movies }) {
     <div>
       <ul>
         {movies.map((movie) => (
-          <li key={movie.imdbID}>
-            {movie.Title} ({movie.Year})
-            <img src={movie.Poster} alt={`${movie.Title} poster image`} />
+          <li key={movie.id}>
+            {movie.title} ({movie.year})
+            <img src={movie.poster} alt={`${movie.title} poster image`} />
           </li>
         ))}
       </ul>
