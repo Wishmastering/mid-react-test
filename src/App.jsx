@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import "./App.css";
 
 import useMovies from "./hooks/useMovies";
@@ -7,19 +8,35 @@ export default function App() {
 
   const hasMovies = movies?.length > 0;
 
+  const inputRef = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fields = Object.fromEntries(new window.FormData(e.target));
+    // const searchBar = fields.get("searchBar");
+    console.log(fields);
+    // console.log(searchBar);
+
+    // useRef INPUT management
+    // const value = inputRef.current.value;
+    // alert(value);
+    // inputRef.current.value = "";
+  };
+
   return (
     <div className="page">
       <h1>Prueba Tecnica</h1>
       <header>
         <label htmlFor="searchBar">Search Movie Here...</label>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Avengers, Matrix, LOTR..."
             name="searchBar"
             id="searchBar"
+            ref={inputRef}
           />
-          <button type="submit"> Search </button>
+          <button type="submit">Search</button>
         </form>
       </header>
 
