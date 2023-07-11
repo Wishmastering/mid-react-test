@@ -12,10 +12,11 @@ export default function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fields = Object.fromEntries(new window.FormData(e.target));
-    // const searchBar = fields.get("searchBar");
-    console.log(fields);
-    // console.log(searchBar);
+
+    // UNCONTROLLED INPUT
+    // const fields = Object.fromEntries(new window.FormData(e.target));
+    // //    // const searchBar = fields.get("searchBar");
+    // console.log(fields);
 
     // useRef INPUT management
     // const value = inputRef.current.value;
