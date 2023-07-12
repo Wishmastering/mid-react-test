@@ -12,7 +12,7 @@ Requerimientos ->
 ✅ Lista las peliculas encontradas y muestra el titulo, a;o y poster
 
 ✅ map de lo encontrado
--- fetch
+-- fetch (progress)
 
 - Haz que las peliculas se muestren en un grid responsive.
 
