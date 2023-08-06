@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import useMovies from "./hooks/useMovies";
@@ -7,7 +7,7 @@ export default function App() {
   const { movies } = useMovies();
 
   const [search, setSearch] = useState("");
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
   const hasMovies = movies?.length > 0;
 
