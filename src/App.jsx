@@ -3,11 +3,35 @@ import "./App.css";
 
 import useMovies from "./hooks/useMovies";
 
+function useSearch() {
+  const [search, setSearch] = useState("");
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (search === "") {
+      setError("No se puede buscar una pelicula vacia");
+      return;
+    }
+
+    if (search.match(/^\d+$/)) {
+      setError("No se puede buscar una pelicula solo con numeros");
+      return;
+    }
+
+    if (search.length < 3) {
+      setError("La pelicula debe tener al menos 3 caracteres");
+      return;
+    }
+
+    setError(null);
+  }, [search]);
+
+  return { search, setSearch, error };
+}
+
 export default function App() {
   const { movies } = useMovies();
-
-  const [search, setSearch] = useState("");
-  // const [error, setError] = useState(null);
+  const { search, setSearch, error } = useSearch();
 
   const hasMovies = movies?.length > 0;
 
@@ -33,11 +57,6 @@ export default function App() {
     setSearch(e.target.value);
   };
 
-  useEffect(() => {
-    if (search === "pizza") console.log("Pizza!");
-    return;
-  }, [search]);
-
   return (
     <div className="page">
       <h1>Prueba Tecnica</h1>
@@ -55,6 +74,7 @@ export default function App() {
           />
           <button type="submit">Search</button>
         </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </header>
 
       <main>
