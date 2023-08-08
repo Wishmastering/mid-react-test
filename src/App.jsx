@@ -5,31 +5,24 @@ import useMovies from "./hooks/useMovies";
 import useSearch from "./hooks/useSearch";
 
 export default function App() {
-  const { movies } = useMovies();
+  const [sort, setSort] = useState(false);
+
   const { search, setSearch, error } = useSearch();
 
-  const hasMovies = movies?.length > 0;
+  const { movies, getMovies, loading } = useMovies({ search, sort });
 
-  // const inputRef = useRef();
+  const handleSort = () => {
+    setSort(!sort);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ search });
-    alert(`Click ${search}`);
-
-    // UNCONTROLLED INPUT
-    // const fields = Object.fromEntries(new window.FormData(e.target));
-    // //    // const searchBar = fields.get("searchBar");
-    // console.log(fields);
-
-    // useRef INPUT management
-    // const value = inputRef.current.value;
-    // alert(value);
-    // inputRef.current.value = "";
+    getMovies();
   };
 
   const handleChange = (e) => {
-    setSearch(e.target.value);
+    let newSearch = e.target.value;
+    setSearch(newSearch);
   };
 
   return (
@@ -43,18 +36,17 @@ export default function App() {
             placeholder="Avengers, Matrix, LOTR..."
             name="searchBar"
             id="searchBar"
-            // ref={inputRef}
             value={search}
             onChange={handleChange}
           />
+          <input type="checkbox" />
           <button type="submit">Search</button>
         </form>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </header>
 
       <main>
-        {/* Movies Will Go Here */}
-        {hasMovies ? <RenderMovies movies={movies} /> : <RenderNoResults />}
+        {loading ? <p>Cargando ... </p> : <RenderMovies movies={movies} />}
       </main>
     </div>
   );
