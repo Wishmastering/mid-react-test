@@ -1,8 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import "./App.css";
 
 import useMovies from "./hooks/useMovies";
 import useSearch from "./hooks/useSearch";
+import debounce from "just-debounce-it";
 
 export default function App() {
   const [sort, setSort] = useState(false);
@@ -10,6 +11,14 @@ export default function App() {
   const { search, setSearch, error } = useSearch();
 
   const { movies, getMovies, loading } = useMovies({ search, sort });
+
+  const debouncedGetMovies = useCallback(
+    debounce((search) => {
+      console.log("search", search);
+      getMovies({ search });
+    }, 500),
+    []
+  );
 
   const handleSort = () => {
     setSort(!sort);
@@ -23,6 +32,7 @@ export default function App() {
   const handleChange = (e) => {
     let newSearch = e.target.value;
     setSearch(newSearch);
+    debouncedGetMovies(search);
   };
 
   return (
@@ -55,7 +65,7 @@ export default function App() {
 function RenderMovies({ movies }) {
   return (
     <ul className="movies">
-      {movies.map((movie) => (
+      {movies?.map((movie) => (
         <li className="movie" key={movie.id}>
           {movie.title} ({movie.year})
           <img src={movie.poster} alt={`${movie.title} poster image`} />
