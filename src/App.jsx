@@ -17,7 +17,7 @@ export default function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getMovies();
+    getMovies({ search });
   };
 
   const handleChange = (e) => {
@@ -39,7 +39,7 @@ export default function App() {
             value={search}
             onChange={handleChange}
           />
-          <input type="checkbox" />
+          <input type="checkbox" onClick={handleSort} />
           <button type="submit">Search</button>
         </form>
         {error && <p style={{ color: "red" }}>{error}</p>}

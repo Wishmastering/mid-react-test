@@ -1,6 +1,6 @@
 // import withResults from "../mocks/mock-results.json";
 // import noResults from "../mocks/no-results.json";
-import { useRef, useState, useMemo, useEffect } from "react";
+import { useRef, useState, useMemo, useEffect, useCallback } from "react";
 import { searchMovies } from "../services/movies.js";
 
 export default function useMovies({ search, sort }) {
@@ -9,7 +9,7 @@ export default function useMovies({ search, sort }) {
   const [error, setError] = useState(null);
   const previousSearch = useRef(search);
 
-  const getMovies = async () => {
+  const getMovies = useCallback(async ({ search }) => {
     console.log("hello");
     if (search === previousSearch.current) return;
     try {
@@ -23,14 +23,14 @@ export default function useMovies({ search, sort }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     console.log("Get Movies Function Ran");
   }, [getMovies]);
 
   const sortedMovies = useMemo(() => {
-    console.log("Memo Sorted Movies");
+    // console.log("Memo Sorted Movies");
     return sort
       ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
       : movies;
